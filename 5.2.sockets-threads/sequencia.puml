@@ -1,0 +1,8 @@
+@startuml sequencia
+Cliente -> Servidor: comando
+Servidor -> Servidor: 
+Servidor --> Cliente: Authentication Response
+
+Cliente -> Servidor: Another authentication Request
+Cliente <-- Servidor: Another authentication Response
+@enduml
