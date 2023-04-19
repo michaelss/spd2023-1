@@ -1,0 +1,55 @@
+@startuml
+
+package "br.gov" {
+    class Usuario {
+        String nome
+        String perfil
+    }
+
+    class Autenticacao {
+        {method} Usuario logar(String login, String senha)
+    }
+    note right of Autenticacao::logar
+        Retorna null se as credenciais forem inválidas
+    end note
+}
+
+package br.com.fabrica {
+    class Principal {
+        + {static} void main(String[] args)
+    }
+    class FabricaServiceImpl {
+        - {static} Map<String, int> estoque
+        void produzir(String cod, int qtd)
+        BigDecimal vender(String cod, int qtd)
+    }
+    note right of FabricaServiceImpl::estoque
+        A chave String é o código do produto e 
+        o valor int é a quantidade em estoque
+    end note
+    note right of FabricaServiceImpl::vender
+        Retorna o valor do ISS, retornado pela prefeitura
+    end note
+
+}
+
+package br.gov.sp {
+    interface FazendaService {
+        BigDecimal calcularICMS(DadosNF dados)
+    }
+    note right of FazendaService::calcularICMS
+        Retorna o valor do ICMS (15%)
+    end note
+
+    class DadosNF {
+        String cnpj
+        String razaoSocial
+        Date data
+        BigDecimal valorTotal
+    }
+}
+
+br.com.fabrica --o br.gov
+br.com.fabrica --o br.gov.sp
+
+@enduml

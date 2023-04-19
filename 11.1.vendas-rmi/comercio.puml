@@ -1,0 +1,54 @@
+@startuml
+
+package "br.gov" {
+    class Usuario {
+        String nome
+        String perfil
+    }
+
+    class Autenticacao {
+        {method} Usuario logar(String login, String senha)
+    }
+    note right of Autenticacao::logar
+        Retorna null se as credenciais forem inválidas
+    end note
+}
+
+package br.com.comercio {
+    class Principal {
+        + {static} void main(String[] args)
+    }
+    class ComercioService {
+        - {static} Map<String, int> estoque
+        BigDecimal vender(String cod, int qtd)
+    }
+    note right of ComercioService::estoque
+        A chave String é o código do produto e 
+        o valor int é a quantidade em estoque
+    end note
+    note right of ComercioService::vender
+        Retorna o valor do ISS, retornado pela prefeitura
+    end note
+
+}
+
+package br.gov.to.palmas {
+    interface NFService {
+        BigDecimal calcularISSEEmitirNF(DadosNF dados)
+    }
+    note right of NFService::calcularISSEEmitirNF
+        Retorna o valor do ISS (5%)
+    end note
+
+    class DadosNF {
+        String cnpj
+        String razaoSocial
+        Date data
+        BigDecimal valorTotal
+    }
+}
+
+br.com.comercio --o br.gov
+br.com.comercio --o br.gov.to.palmas
+
+@enduml
